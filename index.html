@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sticker Galaxy</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#f2f2f2;
+transition:0.3s;
+}
+
+.dark{
+background:#121212;
+color:white;
+}
+
+header{
+background:#ff4d6d;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+}
+
+.controls{
+text-align:center;
+padding:15px;
+}
+
+input{
+padding:10px;
+width:250px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+padding:8px 12px;
+border:none;
+border-radius:6px;
+background:#007bff;
+color:white;
+cursor:pointer;
+margin:5px;
+}
+
+.gallery{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+padding:20px;
+}
+
+.sticker{
+background:white;
+padding:15px;
+border-radius:10px;
+width:150px;
+text-align:center;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.dark .sticker{
+background:#1e1e1e;
+}
+
+.sticker img{
+width:100px;
+height:100px;
+}
+
+.download{
+background:#28a745;
+margin-top:8px;
+}
+
+footer{
+background:#222;
+color:white;
+text-align:center;
+padding:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>🌟 Sticker Galaxy 🌟</header>
+
+<div class="controls">
+
+<input type="text" id="search" placeholder="Search stickers...">
+
+<br>
+
+<button onclick="filter('all')">All</button>
+<button onclick="filter('emoji')">Emoji</button>
+<button onclick="filter('animal')">Animals</button>
+<button onclick="filter('love')">Love</button>
+
+<button onclick="darkMode()">🌙 Dark Mode</button>
+
+<br><br>
+
+Upload Sticker:
+<input type="file" id="upload">
+
+</div>
+
+<div class="gallery" id="gallery">
+
+<div class="sticker" data-category="emoji">
+<img src="https://cdn-icons-png.flaticon.com/512/742/742751.png">
+<p>Smile</p>
+<a href="https://cdn-icons-png.flaticon.com/512/742/742751.png" download>
+<button class="download">Download</button>
+</a>
+</div>
+
+<div class="sticker" data-category="animal">
+<img src="https://cdn-icons-png.flaticon.com/512/616/616490.png">
+<p>Cat</p>
+<a href="https://cdn-icons-png.flaticon.com/512/616/616490.png" download>
+<button class="download">Download</button>
+</a>
+</div>
+
+<div class="sticker" data-category="animal">
+<img src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+<p>Dog</p>
+<a href="https://cdn-icons-png.flaticon.com/512/616/616408.png" download>
+<button class="download">Download</button>
+</a>
+</div>
+
+<div class="sticker" data-category="love">
+<img src="https://cdn-icons-png.flaticon.com/512/833/833472.png">
+<p>Heart</p>
+<a href="https://cdn-icons-png.flaticon.com/512/833/833472.png" download>
+<button class="download">Download</button>
+</a>
+</div>
+
+</div>
+
+<footer>
+© 2026 Sticker Galaxy
+</footer>
+
+<script>
+
+function filter(category){
+let stickers=document.querySelectorAll(".sticker");
+
+stickers.forEach(sticker=>{
+if(category==="all" || sticker.dataset.category===category){
+sticker.style.display="block";
+}else{
+sticker.style.display="none";
+}
+});
+}
+
+document.getElementById("search").addEventListener("keyup", function(){
+
+let value=this.value.toLowerCase();
+let stickers=document.querySelectorAll(".sticker");
+
+stickers.forEach(sticker=>{
+let text=sticker.innerText.toLowerCase();
+sticker.style.display=text.includes(value) ? "block":"none";
+});
+
+});
+
+function darkMode(){
+document.body.classList.toggle("dark");
+}
+
+document.getElementById("upload").addEventListener("change", function(){
+
+let file=this.files[0];
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+let div=document.createElement("div");
+div.className="sticker";
+
+div.innerHTML=`
+<img src="${e.target.result}">
+<p>Your Sticker</p>
+<a href="${e.target.result}" download>
+<button class="download">Download</button>
+</a>
+`;
+
+document.getElementById("gallery").appendChild(div);
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+</script>
+
+</body>
+</html>
